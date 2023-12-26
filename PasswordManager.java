@@ -1,0 +1,9 @@
+
+
+
+
+
+class SplashScreen{
+    JFrame frame;
+    
+}
