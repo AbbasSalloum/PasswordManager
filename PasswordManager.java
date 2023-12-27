@@ -655,3 +655,32 @@ class PasswordManager implements ActionListener{
         }
         );
 }
+
+  // method for setting the buttons and GUI for adding notes
+    private void NoteGUI() {
+
+        conn3 = new JFrame("Add Note");
+        conn3.setSize(500, 500);
+        conn3.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        conn3.setLocationRelativeTo(null);
+        conn3.setLayout(null);
+        conn3.setVisible(true);
+        conn3.setResizable(false);
+
+        //add note label
+         addNoteLabel = new JLabel("Add Note");
+        addNoteLabel.setBounds(200, 20, 100, 30);
+        conn3.add(addNoteLabel);
+
+        //add note text area
+         tNote = new JTextArea(10, 10);
+        tNote.setBounds(100, 60, 300, 300);
+        conn3.add(tNote);
+
+        //add note button
+         addNote = new JButton("ADD NOTE");
+        GUIButtonsSetting(addNote);
+        addNote.setBounds(140, 380, 220, 30);
+        conn3.add(addNote);
+    }
+
