@@ -312,5 +312,152 @@ class PasswordManager implements ActionListener{
     HashtablePassword data = new HashtablePassword(15,0.5F,0);
 
     JFrame frame;
+    JFrame frame2;
+    JLabel background;
+    Container conn1,conn2;
+    JLabel lAcc,lPass;
+    JTextArea encryptPasswdArea, genePassArea, searchPassArea;
+    JButton PassGeneBtn,PassEncryptBtn, PassStoreBtn, PassSearchBtn, AccAddBtn, PassDeleteBtn;
+    JTextField tAcc,tPass;
+    JButton addNoteBtn;
+    JLabel addNoteLabel;
+    JTextArea tNote;
+    JButton addNote;
+    JFrame conn3;
     
+       ArrayList<String> notes = new ArrayList<>(); // to store the notes in an array list of string type
+
+    @Override
+    public void actionPerformed(ActionEvent e) { }
+
+    //Frame settings
+    public static void FrameGUI(JFrame frame){
+        frame.setVisible(true);
+        frame.setLayout(null);
+        frame.setLocationRelativeTo(null);
+    }
+
+
+    //container settings
+    public static void ContainerGUI(Container conn){
+        conn.setVisible(true);
+        conn.setBackground(Color.getHSBColor(20.4f, 10.5f, 12.9f));
+        conn.setLayout(null);
+    }
+
+
+    // buttons settings
+    public void GUIButtonsSetting(JButton btn){
+        btn.setBackground(new Color(0XFB2576));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        btn.setFocusable(false);
+        Cursor crs = new Cursor(Cursor.HAND_CURSOR); 
+        btn.setCursor(crs);
+        Font fn = new Font("MV Boli", Font.BOLD, 15);
+        btn.setFont(fn);
+    }
+
+    //GUI of Store password
+    public void StoringGUI()
+    {
+        frame2 = new JFrame("Store your passwords");
+        frame2.setBounds(1400, 300, 800, 500);
+        frame2.setSize(400,400);
+        FrameGUI(frame2);
+        conn2 = frame2.getContentPane();
+        ContainerGUI(conn2);
+        Font fn = new Font("MV Boli", Font.BOLD, 20);
+
+        //Account textFiled and label
+        lAcc = new JLabel("ACCOUNT NAME");
+        lAcc.setBounds(90, 23, 380, 20);
+        lAcc.setFont(fn);
+        conn2.add(lAcc);
+
+        tAcc = new JTextField();
+        tAcc.setBounds(90,70,200,50);
+        tAcc.setFont(fn);
+        tAcc.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        tAcc.setForeground(Color.DARK_GRAY);
+        conn2.add(tAcc);
+
+        //Account password textField and label
+        lPass = new JLabel("ACCOUNT PASSWORD");
+        lPass.setBounds(90, 160, 380, 20);
+        lPass.setFont(fn);
+        conn2.add(lPass);
+
+        tPass = new JTextField();
+        tPass.setBounds(90,200,200,50);
+        tPass.setFont(fn);
+        tPass.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        tPass.setForeground(Color.DARK_GRAY);
+        conn2.add(tPass);
+
+        AccAddBtn = new JButton("STORE");
+        AccAddBtn.setBounds(120, 290, 150, 50);
+        conn2.add(AccAddBtn);
+        GUIButtonsSetting(AccAddBtn);
+    }
+
+    //for password generator and encryption
+    public void textArea(String Pass,JTextArea TA){
+        TA.setText(Pass);
+        Font fn = new Font("MV Boli", Font.BOLD, 20);
+        TA.setWrapStyleWord(true);
+        TA.setLineWrap(true);
+        TA.setCaretPosition(0);
+        TA.setEditable(false);
+        TA.setFont(fn);
+
+    }
+
+       //GUI of Password Manager
+    PasswordManager() {
+
+        frame = new JFrame("Password Manager");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400,650);
+        frame.setResizable(false);
+        ImageIcon img = new ImageIcon("background.png");
+        background = new JLabel("",img,JLabel.CENTER);
+        background.setBounds(0,0,400,650);
+        background.setVisible(true);
+        frame.add(background);
+    
+        FrameGUI(frame);
+
+        conn1 = frame.getContentPane();
+        ContainerGUI(conn1);
+
+        //Generator buttons settings
+        PassGeneBtn = new JButton("GENERATE PASSWORD");
+        PassGeneBtn.setBounds(90, 20, 220, 40);
+        conn1.add(PassGeneBtn);
+        GUIButtonsSetting(PassGeneBtn);
+
+        //generating password
+        PassGeneBtn.addActionListener(e -> {
+        if(PassGeneBtn ==e.getSource())
+        {
+            try{
+                int len = Integer.parseInt(JOptionPane.showInputDialog("Enter the password length"));
+                if(len>4)
+                {
+                    //  password generator class reference
+                    PasswordGenerator pass = new PasswordGenerator();
+                    String passwd = pass.generatePassword(len);
+                    genePassArea = new JTextArea(5,4);
+                    textArea(passwd,genePassArea);
+                    JOptionPane.showMessageDialog(conn1,new JScrollPane(genePassArea),"Copy your password",JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                else JOptionPane.showMessageDialog (conn1,"Password length must be greater than 8!","Invalid Input Error",JOptionPane.WARNING_MESSAGE);
+
+            }
+            catch(Exception ex){JOptionPane.showMessageDialog(conn1,"Write something","EXIT!",JOptionPane.ERROR_MESSAGE);}
+        }
+    }
+    );
 }
